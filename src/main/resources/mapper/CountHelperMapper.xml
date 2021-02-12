@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shadow.extension25_autoconfig.test.mapper.CountHelperMapper">
+
+    <!--  通用查询结果映射  -->
+    <resultMap id="BaseResultMap" type="com.shadow.extension25_autoconfig.test.entity.CountHelper">
+        <id column="id" property="id" />
+        <result column="type" property="type" />
+        <result column="fn_account" property="fnAccount" />
+        <result column="count" property="count" />
+        <result column="year" property="year" />
+        <result column="month" property="month" />
+        <result column="date" property="date" />
+    </resultMap>
+
+    <!--  统一查询结果列  -->
+    <sql id="Base_Column_List">
+        id , type, fn_account, count, year, month, date
+    </sql>
+
+    <insert id="batchSave">
+        INSERT INTO
+        count_helper(<include refid="Base_Column_List" />)
+        VALUES
+        <foreach collection="list" item="item" separator="," index="index">
+            (null,#{item.type},#{item.fn_account},#{item.count},#{item.year},#{item.month},#{item.date})
+        </foreach>
+    </insert>
+
+    <delete id="deleteAll">
+        DELETE
+        FROM
+        count_heler
+    </delete>
+
+</mapper>
