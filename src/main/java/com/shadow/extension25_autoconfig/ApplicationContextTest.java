@@ -1,5 +1,6 @@
 package com.shadow.extension25_autoconfig;
 
+import com.shadow.utils.ConsoleColors;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 /**
@@ -12,7 +13,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 public class ApplicationContextTest {
 
     public static void main(String[] args) {
-        ClassPathXmlApplicationContext ac = new ClassPathXmlApplicationContext("classpath:config/extension-01.xml");
+        System.out.println(ConsoleColors.YELLOW_UNDERLINED +  " hello world " + ConsoleColors.RESET);
     }
 
 }
