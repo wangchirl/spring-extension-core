@@ -7,7 +7,6 @@
         http://www.springframework.org/schema/context
         http://www.springframework.org/schema/context/spring-context.xsd">
 
-    <context:component-scan base-package="com.shadow.extension01_bean_name.test"
-                            name-generator="com.shadow.extension01_bean_name.ex.CustomerBeanNameGenerator"/>
+    <bean id="user" class="com.shadow.extension17_factory_bean.ex.MyFactoryBean"/>
 
 </beans>
