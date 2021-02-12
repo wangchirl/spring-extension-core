@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <bean id="father" class="com.shadow.extension10_conversion_service.test.Father">
+        <property name="name" value="乔布斯" />
+        <property name="son" value="1-乔" />
+        <property name="humanEnum" value="MAN" />
+        <property name="addrs">
+            <list>
+                <value>湖南省-张家界-永定区</value>
+                <value>广东省-深圳-南山区</value>
+                <value>福建省-厦门-思明区</value>
+            </list>
+        </property>
+    </bean>
+
+    <!--  注册类型转换器  -->
+    <bean id="one2one" class="com.shadow.extension10_conversion_service.ex.ConverterOne2One"/>
+    <bean id="one2N" class="com.shadow.extension10_conversion_service.ex.ConverterFactoryOne2N"/>
+    <bean id="n2N" class="com.shadow.extension10_conversion_service.ex.GenericConverterN2N"/>
+
+    <bean id="conversionService" class="org.springframework.context.support.ConversionServiceFactoryBean">
+        <property name="converters">
+            <set>
+                <ref bean="one2one"/>
+                <ref bean="one2N"/>
+                <ref bean="n2N"/>
+            </set>
+        </property>
+    </bean>
+
+</beans>

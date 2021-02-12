@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:context="http://www.springframework.org/schema/util"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/util
+        http://www.springframework.org/schema/util/spring-util.xsd">
+
+   <bean id="book2" class="com.shadow.extension14_populate.test.Book">
+       <property name="name" value="红楼梦" />
+       <property name="author" value="曹雪芹" />
+       <property name="price" value="22" />
+   </bean>
+
+    <bean id="man" class="com.shadow.extension14_populate.test.Man">
+        <property name="id" value="1"/>
+        <!--   赋值 null     -->
+        <property name="name">
+            <null></null>
+        </property>
+        <!--   int 赋值     -->
+        <property name="age" value="11" />
+        <!--   String 赋值     -->
+        <property name="gender" value="男" />
+        <!--    对象赋值    -->
+        <property name="address">
+            <bean class="com.shadow.extension14_populate.test.Address">
+                <property name="province" value="湖南省" />
+                <property name="city" value="张家界" />
+                <property name="town" value="武陵源" />
+            </bean>
+        </property>
+        <!--    给数组赋值     -->
+        <property name="hobbies">
+            <array>
+                <value>book</value>
+                <value>movie</value>
+                <value>game</value>
+            </array>
+        </property>
+        <!--    给 List 集合赋值   -->
+        <property name="books">
+            <list>
+                <bean id="book" class="com.shadow.extension14_populate.test.Book">
+                    <property name="name" value="三国演义" />
+                    <property name="author" value="罗贯中" />
+                    <property name="price" value="33" />
+                </bean>
+                <!--   引用外部 bean     -->
+                <ref bean="book2" />
+            </list>
+        </property>
+        <!--   给 Set 集合赋值     -->
+        <property name="coins">
+            <set>
+                <value>1</value>
+                <value>2</value>
+                <value>5</value>
+                <value>10</value>
+                <value>20</value>
+            </set>
+        </property>
+        <!--   给 Map 集合赋值     -->
+<!--        <property name="packages" ref="outerMap" />-->
+        <property name="packages">
+            <map>
+                <entry key="k1" value="v1" />
+                <entry key="k2" value="v2" />
+                <entry key="k3">
+                    <bean class="com.shadow.extension14_populate.test.Book">
+                        <property name="name" value="西游记" />
+                        <property name="author" value="吴承恩"  />
+                        <property name="price" value="44" />
+                    </bean>
+                </entry>
+            </map>
+        </property>
+        <!--   给 Properties 赋值     -->
+        <property name="properties">
+            <props>
+                <prop key="hello">shadow</prop>
+                <prop key="world">666666</prop>
+            </props>
+        </property>
+    </bean>
+
+    <util:map id="outerMap">
+        <entry key="key1" value="value1" />
+        <entry key="key2" value="value2" />
+        <entry key="key3">
+            <bean class="com.shadow.extension14_populate.test.Book">
+                <property name="name" value="Java" />
+                <property name="author" value="高斯林" />
+                <property name="price" value="55" />
+            </bean>
+        </entry>
+    </util:map>
+</beans>

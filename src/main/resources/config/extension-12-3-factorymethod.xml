@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <!--  1、InstantiationAwareBeanPostProcessor   -->
+
+    <!--  2、Supplier  -->
+
+    <!--  3、Factory Method  -->
+    <!--  实例工厂方法  -->
+    <bean id="factoryInstantiationFactory" class="com.shadow.extension12_create_bean_instance.ex.third_factorymethod.FactoryMethodInstantiationFactory" />
+    <bean id="factoryInstantiation1" factory-bean="factoryInstantiationFactory" factory-method="getObject">
+        <constructor-arg value="王钦" />
+    </bean>
+
+    <!-- 静态工厂方法 -->
+    <bean id="factoryInstantiation2" class="com.shadow.extension12_create_bean_instance.ex.third_factorymethod.FactoryStaticMethodInstantiationFactory"
+    factory-method="getObject">
+        <constructor-arg value="王五" index="0" />
+    </bean>
+
+</beans>

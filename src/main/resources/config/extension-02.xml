@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:ex="http://www.shadow.com/schema/user"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context.xsd
+       http://www.shadow.com/schema/user
+       http://www.shadow.com/schema/user.xsd">
+
+    <context:component-scan base-package="com.shadow.extension02_xml_tag.test"/>
+
+    <ex:xsd-user id="xxx" userName="张三" email="757748953@qq.com" password="shadow1990"/>
+
+</beans>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="person" class="com.shadow.extension03_editor_xml.test.Person">
+        <property name="name" value="李四" />
+        <property name="address" value="湖南省-张家界市-永定区"/>
+    </bean>
+
+    <!--  1、方式一 PropertyEditorRegistrar[] propertyEditorRegistrars  -->
+    <!--<bean class="org.springframework.beans.factory.config.CustomEditorConfigurer">
+        <property name="propertyEditorRegistrars">
+            <list>
+                <bean class="com.shadow.extension03_editor_xml.ex.AddressPropertyEditorRegistrar" />
+            </list>
+        </property>
+    </bean>-->
+
+    <!--  2、方式二 Map<Class<?>, Class<? extends PropertyEditor>> customEditors  -->
+    <bean class="org.springframework.beans.factory.config.CustomEditorConfigurer">
+        <property name="customEditors">
+            <map>
+                <entry key="com.shadow.extension03_editor_xml.test.Address">
+                    <value>com.shadow.extension03_editor_xml.ex.AddressPropertyEditor</value>
+                </entry>
+            </map>
+        </property>
+    </bean>
+
+</beans>
