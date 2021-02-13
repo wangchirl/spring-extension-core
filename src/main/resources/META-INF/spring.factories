@@ -1,1 +1,6 @@
+# Spring SPI
 com.shadow.extension23_java_spring_spi.common.Loader=com.shadow.extension23_java_spring_spi.spring.CustomerSpringLoader
+
+# Auto Configure
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+com.shadow.extension25_autoconfig.ex.innerconfig.DynamicDatasourceAutoConfig
