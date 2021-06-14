@@ -16,7 +16,7 @@ import java.util.*;
  */
 public class YamlUtils {
 
-    private static Resource[] ymlResources = {new ClassPathResource("application.yml")};
+    private static Resource[] ymlResources = {new ClassPathResource("classpath:application.yml")};
     private static Map<String, Object> map = new HashMap<>(200);
 
     public static Map<String, Object> ymlHandler(Resource[] ymlResources) throws Exception {
@@ -117,4 +117,7 @@ public class YamlUtils {
     }
 
 
+    public static Object getValueByKey(String key) {
+        return map.get(key);
+    }
 }

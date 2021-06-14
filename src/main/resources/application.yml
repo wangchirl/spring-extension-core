@@ -1,3 +1,7 @@
 data:
   decrypt:
     enable: true
+
+test:
+  task:
+    cron: 0/15 * * * * ?

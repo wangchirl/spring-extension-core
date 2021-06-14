@@ -17,8 +17,8 @@ import java.util.function.Predicate;
  */
 public class CustomerImportSelector implements ImportSelector, ResourceLoaderAware {
 
-    private static final String YAML_FILE_NAME = "application.yml";
-    private static final String PROPERTIES_FILE_NAME = "application.properties";
+    private static final String YAML_FILE_NAME = "classpath:application.yml";
+    private static final String PROPERTIES_FILE_NAME = "classpath:application.properties";
     private static final String CONFIG_KEY = "data.decrypt.enable";
 
     private boolean decryptIfNecessary = false;
