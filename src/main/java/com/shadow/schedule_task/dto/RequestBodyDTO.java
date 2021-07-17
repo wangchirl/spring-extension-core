@@ -13,8 +13,8 @@ public class RequestBodyDTO {
     private String option;
 
     @NotNull
-    private String type;
+    private String taskKey;
 
     @NotNull
-    private String cron;
+    private String cronExpression;
 }

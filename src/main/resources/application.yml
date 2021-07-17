@@ -3,5 +3,9 @@ data:
     enable: true
 
 test:
-  task:
-    cron: 0/15 * * * * ?
+  normal:
+    task:
+      cron: 0/15 * * * * ?
+  distribution:
+    task:
+      cron: 0/15 * * * * ?

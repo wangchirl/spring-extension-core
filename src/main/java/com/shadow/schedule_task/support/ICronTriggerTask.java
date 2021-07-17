@@ -6,6 +6,7 @@ public interface ICronTriggerTask {
 
     /**
      * schedule task type
+     * unique key
      */
     String type();
 

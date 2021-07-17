@@ -1,8 +1,12 @@
 package com.shadow.schedule_task.support;
 
 import com.alibaba.fastjson.JSON;
+import com.shadow.schedule_task.constants.ScheduleTaskInfoEnum;
+import com.shadow.schedule_task.vo.ScheduleInfoVO;
+import com.shadow.schedule_task.vo.ScheduleVO;
 import com.sun.istack.internal.NotNull;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
@@ -15,10 +19,7 @@ import org.springframework.scheduling.config.ScheduledTaskRegistrar;
 import org.springframework.scheduling.support.CronTrigger;
 import org.springframework.stereotype.Component;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ScheduledFuture;
 
@@ -77,20 +78,31 @@ public class CommonSchedulingConfigurer implements SchedulingConfigurer, Applica
      * get task information
      * @return information
      */
-    public String get() {
-        final Set<String> types = FUTURE_MAP.keySet();
-        HashMap<String, Object> resultMap = new HashMap<>();
-        resultMap.put("futures", types);
-        resultMap.put("crons", new HashMap<String, Object>() {
-            {
-                for (Entry<String, ICronTriggerTask> taskEntry : TASK_MAP.entrySet()) {
-                    put(taskEntry.getKey(), taskEntry.getValue().getTrigger().getExpression());
-                }
+    public ScheduleVO get(String taskKey) {
+        ScheduleVO scheduleVO = new ScheduleVO();
+        if(StringUtils.isEmpty(taskKey)) {
+            final Set<String> types = FUTURE_MAP.keySet();
+            scheduleVO.setActiveTaskKeys(types);
+            List<ScheduleInfoVO> taskInfos = new ArrayList<>();
+            for (Map.Entry<String, ICronTriggerTask> taskEntry : TASK_MAP.entrySet()) {
+                ScheduleInfoVO scheduleInfoVO = new ScheduleInfoVO();
+                scheduleInfoVO.setTaskName(ScheduleTaskInfoEnum.getScheduleTaskNameByTaskKey(taskEntry.getKey()))
+                              .setTaskKey(taskEntry.getKey())
+                              .setTaskCron(taskEntry.getValue().getTrigger().getExpression());
+                taskInfos.add(scheduleInfoVO);
             }
-        });
-        String result = JSON.toJSONString(resultMap);
-        log.info("get task information successful {} ", result);
-        return result;
+            scheduleVO.setTasks(taskInfos);
+        } else {
+            final ICronTriggerTask triggerTask = TASK_MAP.get(taskKey);
+            if(triggerTask != null) {
+                ScheduleInfoVO scheduleInfoVO = new ScheduleInfoVO();
+                scheduleInfoVO.setTaskName(ScheduleTaskInfoEnum.getScheduleTaskNameByTaskKey(taskKey))
+                              .setTaskKey(taskKey)
+                              .setTaskCron(triggerTask.getTrigger().getExpression());
+                scheduleVO.setTasks(Collections.singletonList(scheduleInfoVO));
+            }
+        }
+        return scheduleVO;
     }
 
     /**
@@ -101,7 +113,7 @@ public class CommonSchedulingConfigurer implements SchedulingConfigurer, Applica
     public boolean add(@NotNull ICronTriggerTask triggerTask) {
         String type = triggerTask.type(), cron = triggerTask.getTrigger().getExpression();
         if(FUTURE_MAP.containsKey(type)) {
-            log.warn("task type named {} already exists ");
+            log.warn("task type named {} already exists ", type);
             return false;
         }
         ScheduledFuture<?> scheduledFuture = taskScheduler.schedule(triggerTask.getTask(), triggerTask.getTrigger());
