@@ -3,6 +3,7 @@ package com.shadow.extension02_xml_tag.ex;
 import com.shadow.extension02_xml_tag.test.User;
 import org.springframework.beans.factory.support.BeanDefinitionBuilder;
 import org.springframework.beans.factory.xml.AbstractSimpleBeanDefinitionParser;
+import org.springframework.beans.factory.xml.ParserContext;
 import org.springframework.util.StringUtils;
 import org.w3c.dom.Element;
 
@@ -17,8 +18,9 @@ public class UserBeanDefinitionParser extends AbstractSimpleBeanDefinitionParser
         return User.class;
     }
 
+
     @Override
-    protected void doParse(Element element, BeanDefinitionBuilder builder) {
+    protected void doParse(Element element, ParserContext parserContext, BeanDefinitionBuilder builder) {
         // 获取标签具体的属性值
         // 对应 user.xsd 文件中的属性名称
         String userName = element.getAttribute("userName");
@@ -34,4 +36,5 @@ public class UserBeanDefinitionParser extends AbstractSimpleBeanDefinitionParser
             builder.addPropertyValue("password", password);
         }
     }
+
 }
