@@ -1,4 +1,4 @@
-package com.shadow.schedule_task.vo;
+package com.shadow.schedule_task.demo.vo;
 
 import lombok.Data;
 import lombok.experimental.Accessors;
@@ -8,10 +8,10 @@ import java.util.Set;
 
 @Data
 @Accessors(chain = true)
-public class ScheduleVO {
+public class ScheduleVO<T> {
 
     private Set<String> activeTaskKeys;
 
-    private List<ScheduleInfoVO> tasks;
+    private List<ScheduleInfoVO<T>> tasks;
 
 }

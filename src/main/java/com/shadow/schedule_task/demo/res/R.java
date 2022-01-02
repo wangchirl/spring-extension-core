@@ -6,7 +6,7 @@
  * 版权所有，侵权必究！
  */
 
-package com.shadow.schedule_task.res;
+package com.shadow.schedule_task.demo.res;
 
 import org.apache.http.HttpStatus;
 

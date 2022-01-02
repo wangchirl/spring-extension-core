@@ -1,4 +1,4 @@
-package com.shadow.schedule_task.vo;
+package com.shadow.schedule_task.demo.vo;
 
 import lombok.Data;
 import lombok.experimental.Accessors;

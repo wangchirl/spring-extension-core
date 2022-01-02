@@ -1,14 +1,14 @@
-package com.shadow.schedule_task.constants;
+package com.shadow.schedule_task.demo.constants;
 
 public enum ScheduleTaskInfoEnum {
 
     TEST_NORMAL_TASK(ScheduleTaskNameConstants.TEST,
             "测试普通定时任务",
-            "testNormalTriggerTask",
+            ScheduleTaskNameConstants.TEST,
             "test.normal.task.cron"),
     TEST_DISTRIBUTION_TASK(ScheduleTaskNameConstants.TEST_DISTRIBUTION,
             "测试分布式定时任务",
-            "testDistributionTriggerTask",
+            ScheduleTaskNameConstants.TEST_DISTRIBUTION,
             "test.distribution.task.cron"),
     ;
 
@@ -42,7 +42,7 @@ public enum ScheduleTaskInfoEnum {
 
     private static String getScheduleTaskInfoByTaskKey(String taskKey, InnerTypeEnum typeEnum) {
         for (ScheduleTaskInfoEnum taskInfoEnum : ScheduleTaskInfoEnum.values()) {
-            if(taskInfoEnum.getTaskKey().equals(taskKey)) {
+            if (taskInfoEnum.getTaskKey().equals(taskKey)) {
                 switch (typeEnum) {
                     case BEAN_NAME:
                         return taskInfoEnum.getBeanName();
@@ -80,7 +80,6 @@ public enum ScheduleTaskInfoEnum {
     enum InnerTypeEnum {
         BEAN_NAME,
         TASK_NAME,
-        TASK_CRON
-        ;
+        TASK_CRON;
     }
 }

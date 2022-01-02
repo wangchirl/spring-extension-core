@@ -1,4 +1,4 @@
-package com.shadow.schedule_task.config;
+package com.shadow.schedule_task.demo.config;
 
 import net.javacrumbs.shedlock.core.LockProvider;
 import net.javacrumbs.shedlock.provider.jdbc.JdbcLockProvider;

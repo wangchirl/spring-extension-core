@@ -1,12 +1,9 @@
-package com.shadow.schedule_task.controller;
+package com.shadow.schedule_task.framework;
 
-import com.shadow.schedule_task.constants.ScheduleTaskInfoEnum;
-import com.shadow.schedule_task.dto.RequestBodyDTO;
-import com.shadow.schedule_task.res.R;
-import com.shadow.schedule_task.support.CommonSchedulingConfigurer;
-import com.shadow.schedule_task.support.ICronTriggerTask;
-import com.shadow.schedule_task.vo.ScheduleInfoVO;
-import com.shadow.schedule_task.vo.ScheduleTaskInfoVO;
+import com.shadow.schedule_task.demo.constants.ScheduleTaskInfoEnum;
+import com.shadow.schedule_task.demo.dto.RequestBodyDTO;
+import com.shadow.schedule_task.demo.res.R;
+import com.shadow.schedule_task.demo.vo.ScheduleTaskInfoVO;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-@RequestMapping("/schedule/task")
+@RequestMapping("/system/api/schedule/task")
 @Slf4j
 public class ScheduleTaskController {
 
@@ -30,6 +27,7 @@ public class ScheduleTaskController {
 
     /**
      * task list
+     *
      * @return list
      */
     @GetMapping("/list")
@@ -46,9 +44,9 @@ public class ScheduleTaskController {
     /**
      * 定时任务需要注意锁的加锁时间间隔
      * {
-     * 	"option":"update",
-     * 	"type":"test",
-     * 	"cron":"0/5 * * * * ?"
+     * "option":"update",
+     * "type":"test",
+     * "cron":"0/5 * * * * ?"
      * }
      */
     @PostMapping("/option")
@@ -60,6 +58,7 @@ public class ScheduleTaskController {
                 break;
             case "cancel":
             case "delete":
+            case "remove":
                 res = commonSchedulingConfigurer.cancel(requestBodyDTO.getTaskKey());
                 break;
             case "restart":
@@ -68,11 +67,13 @@ public class ScheduleTaskController {
                 break;
             case "add":
                 String beanName = ScheduleTaskInfoEnum.getScheduleTaskBeanNameByTaskKey(requestBodyDTO.getTaskKey());
-                if(!StringUtils.isEmpty(beanName)) {
+                if (!StringUtils.isEmpty(beanName)) {
                     try {
                         ICronTriggerTask triggerTask = this.applicationContext.getBean(beanName, ICronTriggerTask.class);
                         triggerTask.setTrigger(this.applicationContext.getEnvironment().getProperty(ScheduleTaskInfoEnum.getScheduleTaskCronNameByTaskKey(requestBodyDTO.getTaskKey())));
-                        if(!StringUtils.isEmpty(requestBodyDTO.getCronExpression())) triggerTask.setTrigger(requestBodyDTO.getCronExpression());
+                        if (!StringUtils.isEmpty(requestBodyDTO.getCronExpression())) {
+                            triggerTask.setTrigger(requestBodyDTO.getCronExpression());
+                        }
                         res = commonSchedulingConfigurer.add(triggerTask);
                     } catch (Exception e) {
                         log.error("add schedule task error {} ", e.getMessage(), e);
@@ -84,6 +85,33 @@ public class ScheduleTaskController {
                 break;
         }
         return R.ok().put("data", res);
+    }
+
+    /**
+     * 执行任务
+     */
+    @GetMapping("/run/{taskKey}")
+    public R run(@PathVariable("taskKey") String taskKey, @RequestParam(value = "params", required = false) String params) {
+        String beanName = ScheduleTaskInfoEnum.getScheduleTaskBeanNameByTaskKey(taskKey);
+        if (!StringUtils.isEmpty(beanName)) {
+            try {
+                ICronTriggerTask triggerTask = applicationContext.getBean(beanName, ICronTriggerTask.class);
+                if (!StringUtils.isEmpty(params)) {
+                    ScheduleService.JOB_PARAMETERS_THREAD_LOCAL.set(params);
+                }
+                // run
+                triggerTask.run();
+                return R.ok().put("data", triggerTask.getResult());
+            } catch (Exception e) {
+                return R.error().put("data", e.getMessage());
+            } finally {
+                if (!StringUtils.isEmpty(params)) {
+                    ScheduleService.JOB_PARAMETERS_THREAD_LOCAL.remove();
+                }
+            }
+        } else {
+            return R.error().put("data", "未知任务：" + taskKey);
+        }
     }
 
 }

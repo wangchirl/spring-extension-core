@@ -1,4 +1,4 @@
-package com.shadow.schedule_task.constants;
+package com.shadow.schedule_task.demo.constants;
 
 public interface ScheduleTaskNameConstants {
 

@@ -1,4 +1,4 @@
-package com.shadow.schedule_task.config;
+package com.shadow.schedule_task.demo.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
